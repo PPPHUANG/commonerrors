@@ -26,6 +26,13 @@
 <!--            <artifactId>mybatis-spring-boot-starter</artifactId>-->
 <!--            <version>2.1.4</version>-->
 <!--        </dependency>-->
+        <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.20</version>
+            <scope>provided</scope>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -36,15 +43,15 @@
 
     <build>
         <plugins>
-<!--            <plugin>-->
-<!--                <groupId>org.springframework.boot</groupId>-->
-<!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
 <!--               job入口文件-->
 <!--                <configuration>-->
 <!--                    <mainClass>com.ppphuang.demo.job.Launcher</mainClass>-->
 <!--                    <layout>JAR</layout>-->
 <!--                </configuration>-->
-<!--            </plugin>-->
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
