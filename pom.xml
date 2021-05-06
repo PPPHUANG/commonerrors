@@ -51,6 +51,10 @@
 <!--                    <mainClass>com.ppphuang.demo.job.Launcher</mainClass>-->
 <!--                    <layout>JAR</layout>-->
 <!--                </configuration>-->
+<!--                <configuration>-->
+<!--                    <mainClass>com.ppphuang.demo.jdktool.CommonMistakes</mainClass>-->
+<!--                    <layout>JAR</layout>-->
+<!--                </configuration>-->
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
