@@ -1,4 +1,4 @@
-package com.ppphuang.demo.test;
+package com.ppphuang.demo.thread;
 
 import java.io.IOException;
 import java.util.concurrent.*;

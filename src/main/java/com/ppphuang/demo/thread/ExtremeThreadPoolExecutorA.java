@@ -1,4 +1,4 @@
-package com.ppphuang.demo.test;
+package com.ppphuang.demo.thread;
 
 import java.util.concurrent.*;
 
