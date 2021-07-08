@@ -4,8 +4,8 @@ import java.util.LinkedList;
 
 public class QueueMessage {
     public static void main(String[] args) {
-        Queue queue = new Queue(5);
-        for (int i = 0; i < 3; i++) {
+        Queue queue = new Queue(3);
+        for (int i = 0; i < 5; i++) {
             int id = i;
             new Thread(() -> {
                 queue.put(new Message(id,"值"+id));
@@ -44,7 +44,11 @@ class Queue {
                     e.printStackTrace();
                 }
             }
+            //list.notifyAll();
             Message message = list.removeFirst();
+            //这里调用 notifyAll 与上面调用效果一样 都是当前线程释放之后 被唤醒的线程与其他等待线程（Blocked）一起竞争锁
+            //因为notifyAll是将wait进程由waitSet唤醒到entrySet中 然后当前线程释放锁以后entrySet中的线程一起竞争锁
+            //JavaDoc: The awakened threads will not be able to proceed until the current thread relinquishes the lock on this object.
             list.notifyAll();
             return message;
         }
