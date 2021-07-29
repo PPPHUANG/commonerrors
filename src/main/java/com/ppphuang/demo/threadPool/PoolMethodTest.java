@@ -26,7 +26,7 @@ public class PoolMethodTest {
         log.info(submit1.get());
 
         ExecutorService executorService1 = Executors.newFixedThreadPool(2);
-        List<Future<String>> futures = executorService.invokeAll(Arrays.asList(
+        List<Future<String>> futures = executorService1.invokeAll(Arrays.asList(
                 () -> {
                     log.info("11");
                     return "ok11";
@@ -38,7 +38,7 @@ public class PoolMethodTest {
                     log.info("3");
                     return "ok3";
                 }));
-        futures.forEach(i-> {
+        futures.forEach(i -> {
             try {
                 log.info(i.get());
             } catch (InterruptedException e) {
@@ -47,7 +47,25 @@ public class PoolMethodTest {
                 e.printStackTrace();
             }
         });
-
-
+        ExecutorService executorService2 = Executors.newFixedThreadPool(2);
+        String res = executorService2.invokeAny(Arrays.asList(
+                () -> {
+                    log.info("start11");
+                    Thread.sleep(1000);
+                    log.info("end11");
+                    return "ok11";
+                },
+                () -> {
+                    log.info("start22");
+                    Thread.sleep(2000);
+                    log.info("end22");
+                    return "ok22";
+                }, () -> {
+                    log.info("start33");
+                    Thread.sleep(3000);
+                    log.info("end33");
+                    return "ok3";
+                }));
+        System.out.println(res);
     }
 }
