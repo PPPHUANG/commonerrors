@@ -12,8 +12,8 @@ public class PoolMethodTest {
 //        extracted();
 //        extracted2();
 //        extracted3();
-//        extracted4();
-        extracted5();
+        extracted4();
+//        extracted5();
     }
 
     private static void extracted5() throws InterruptedException {
@@ -48,19 +48,23 @@ public class PoolMethodTest {
 
     private static void extracted4() throws InterruptedException {
         ExecutorService executorService1 = Executors.newFixedThreadPool(2);
+        //invokeAll阻塞，完成之后才会返回
         List<Future<String>> futures = executorService1.invokeAll(Arrays.asList(
                 () -> {
+                    log.info("shutdown11start");
                     Thread.sleep(1000);
-                    log.info("shutdown11");
+                    log.info("shutdown11end");
                     return "shutdownok11";
                 },
                 () -> {
+                    log.info("shutdown22start");
                     Thread.sleep(2000);
-                    log.info("shutdown22");
+                    log.info("shutdown22end");
                     return "shutdownok22";
                 }, () -> {
-                    Thread.sleep(3000);
-                    log.info("shutdown33");
+                    log.info("shutdown33start");
+                    Thread.sleep(6000);
+                    log.info("shutdown33end");
                     return "shutdownok33";
                 }));
         log.info("shutdownstart");
