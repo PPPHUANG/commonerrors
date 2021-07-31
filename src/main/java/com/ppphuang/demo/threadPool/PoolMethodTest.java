@@ -9,22 +9,99 @@ import java.util.concurrent.*;
 @Slf4j
 public class PoolMethodTest {
     public static void main(String[] args) throws ExecutionException, InterruptedException {
-        ExecutorService executorService = Executors.newFixedThreadPool(2);
-        Future<String> submit = executorService.submit(new Callable<String>() {
-            @Override
-            public String call() throws Exception {
-                log.info("1");
-                return "ok";
+//        extracted();
+//        extracted2();
+//        extracted3();
+//        extracted4();
+        extracted5();
+    }
+
+    private static void extracted5() throws InterruptedException {
+        ExecutorService executorService1 = Executors.newFixedThreadPool(2);
+        List<Future<String>> futures = executorService1.invokeAll(Arrays.asList(
+                () -> {
+                    Thread.sleep(1000);
+                    log.info("shutdownNow11");
+                    return "shutdownNow11";
+                },
+                () -> {
+                    Thread.sleep(2000);
+                    log.info("shutdownNow22");
+                    return "shutdownNow22";
+                }, () -> {
+                    Thread.sleep(3000);
+                    log.info("shutdownNow33");
+                    return "shutdownNow33";
+                }));
+        List<Runnable> runnables = executorService1.shutdownNow();
+        System.out.println(runnables);
+        futures.forEach(i -> {
+            try {
+                log.info(i.get());
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
             }
         });
-        log.info(submit.get());
+    }
 
-        Future<String> submit1 = executorService.submit(() ->{
-                log.info("2");
-                return "ok2";
+    private static void extracted4() throws InterruptedException {
+        ExecutorService executorService1 = Executors.newFixedThreadPool(2);
+        List<Future<String>> futures = executorService1.invokeAll(Arrays.asList(
+                () -> {
+                    Thread.sleep(1000);
+                    log.info("shutdown11");
+                    return "shutdownok11";
+                },
+                () -> {
+                    Thread.sleep(2000);
+                    log.info("shutdown22");
+                    return "shutdownok22";
+                }, () -> {
+                    Thread.sleep(3000);
+                    log.info("shutdown33");
+                    return "shutdownok33";
+                }));
+        log.info("shutdownstart");
+        executorService1.shutdown();
+        log.info("shutdownend");
+        executorService1.awaitTermination(3, TimeUnit.SECONDS);
+        futures.forEach(i -> {
+            try {
+                log.info(i.get());
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
         });
-        log.info(submit1.get());
+    }
 
+    private static void extracted3() throws InterruptedException, ExecutionException {
+        ExecutorService executorService2 = Executors.newFixedThreadPool(2);
+        String res = executorService2.invokeAny(Arrays.asList(
+                () -> {
+                    log.info("start11");
+                    Thread.sleep(1000);
+                    log.info("end11");
+                    return "ok11";
+                },
+                () -> {
+                    log.info("start22");
+                    Thread.sleep(2000);
+                    log.info("end22");
+                    return "ok22";
+                }, () -> {
+                    log.info("start33");
+                    Thread.sleep(3000);
+                    log.info("end33");
+                    return "ok3";
+                }));
+        System.out.println(res);
+    }
+
+    private static void extracted2() throws InterruptedException {
         ExecutorService executorService1 = Executors.newFixedThreadPool(2);
         List<Future<String>> futures = executorService1.invokeAll(Arrays.asList(
                 () -> {
@@ -47,25 +124,23 @@ public class PoolMethodTest {
                 e.printStackTrace();
             }
         });
-        ExecutorService executorService2 = Executors.newFixedThreadPool(2);
-        String res = executorService2.invokeAny(Arrays.asList(
-                () -> {
-                    log.info("start11");
-                    Thread.sleep(1000);
-                    log.info("end11");
-                    return "ok11";
-                },
-                () -> {
-                    log.info("start22");
-                    Thread.sleep(2000);
-                    log.info("end22");
-                    return "ok22";
-                }, () -> {
-                    log.info("start33");
-                    Thread.sleep(3000);
-                    log.info("end33");
-                    return "ok3";
-                }));
-        System.out.println(res);
+    }
+
+    private static void extracted() throws InterruptedException, ExecutionException {
+        ExecutorService executorService = Executors.newFixedThreadPool(2);
+        Future<String> submit = executorService.submit(new Callable<String>() {
+            @Override
+            public String call() throws Exception {
+                log.info("1");
+                return "ok";
+            }
+        });
+        log.info(submit.get());
+
+        Future<String> submit1 = executorService.submit(() -> {
+            log.info("2");
+            return "ok2";
+        });
+        log.info(submit1.get());
     }
 }
