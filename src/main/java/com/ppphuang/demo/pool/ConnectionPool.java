@@ -4,6 +4,7 @@ import java.sql.*;
 import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.Executor;
+import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicIntegerArray;
 
 /**
@@ -33,14 +34,33 @@ class Pool {
     private final int poolSize;
     private Connection[] connections;
     private AtomicIntegerArray states;
+    private Semaphore semaphore;
 
     public Pool(int poolSize) {
         this.poolSize = poolSize;
+        this.semaphore = new Semaphore(poolSize);
         this.connections = new Connection[poolSize];
         this.states = new AtomicIntegerArray(new int[poolSize]);
         for (int i = 0; i < poolSize; i++) {
             connections[i] = new MockConnection("connection" + i);
         }
+    }
+
+    public Connection borrowSemaphore() {
+        try {
+            semaphore.acquire();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        for (int i = 0; i < poolSize; i++) {
+            if (states.get(i) == 0) {
+                if (states.compareAndSet(i, 0, 1)) {
+                    System.out.println("borrow" + connections[i]);
+                    return connections[i];
+                }
+            }
+        }
+        return null;
     }
 
     public Connection borrow() {
@@ -72,6 +92,17 @@ class Pool {
                     System.out.println("free" + coon);
                     this.notifyAll();
                 }
+            }
+        }
+    }
+
+    public void freeSemaphore(Connection coon) {
+        for (int i = 0; i < poolSize; i++) {
+            if (coon == connections[i]) {
+                states.set(i, 0);
+                System.out.println("free" + coon);
+                semaphore.release();
+                break;
             }
         }
     }
