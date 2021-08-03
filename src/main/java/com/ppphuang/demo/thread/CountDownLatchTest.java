@@ -2,20 +2,70 @@ package com.ppphuang.demo.thread;
 
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
+import java.util.Date;
+import java.util.Map;
 import java.util.Random;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+import java.util.concurrent.*;
 
 @Slf4j
 public class CountDownLatchTest {
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws InterruptedException, ExecutionException {
 //        test();
 //        test1();
-        test2();
+//        test2();
+//        test3();
+        test4();
+    }
+
+    private static void test4() {
+        CyclicBarrier cb = new CyclicBarrier(2); // 个数为2时才会继续执行
+        for (int i = 0; i < 3; i++) {
+            new Thread(() -> {
+                System.out.println("线程1开始.." + new Date());
+                try {
+                    cb.await(); // 当个数不足时，等待
+                } catch (InterruptedException | BrokenBarrierException e) {
+                    e.printStackTrace();
+                }
+                System.out.println("线程1继续向下运行..." + new Date());
+            }).start();
+            new Thread(() -> {
+                System.out.println("线程2开始.." + new Date());
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                }
+                try {
+                    cb.await(); // 2 秒后，线程个数够2，继续运行
+                } catch (InterruptedException | BrokenBarrierException e) {
+                    e.printStackTrace();
+                }
+                System.out.println("线程2继续向下运行..." + new Date());
+            }).start();
+        }
+    }
+
+    private static void test3() throws ExecutionException, InterruptedException {
+        RestTemplate restTemplate = new RestTemplate();
+        ExecutorService executorService = Executors.newFixedThreadPool(4);
+        Future<Map> submit = executorService.submit(() -> {
+            Map local = restTemplate.getForObject("http://localhost:8080/get1", Map.class);
+            return local;
+        });
+        Future<Map> submit1 = executorService.submit(() -> {
+            Map local = restTemplate.getForObject("http://localhost:8080/get2", Map.class);
+            return local;
+        });
+        Future<Map> submit2 = executorService.submit(() -> {
+            Map local = restTemplate.getForObject("http://localhost:8080/get3", Map.class);
+            return local;
+        });
+        System.out.println(submit.get());
+        System.out.println(submit1.get());
+        System.out.println(submit2.get());
     }
 
     private static void test2() {
