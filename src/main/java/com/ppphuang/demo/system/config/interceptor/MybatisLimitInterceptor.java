@@ -13,6 +13,7 @@ import org.apache.ibatis.reflection.factory.DefaultObjectFactory;
 import org.apache.ibatis.reflection.wrapper.DefaultObjectWrapperFactory;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
+import org.mybatis.spring.MyBatisSystemException;
 import org.springframework.util.StringUtils;
 
 import java.sql.SQLException;
@@ -26,9 +27,15 @@ public class MybatisLimitInterceptor implements Interceptor {
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
         // 获取sql
-        String sql = getSqlByInvocation(invocation);
+        String sql = getSqlByInvocation(invocation).replaceAll(" +", " ");
+        ;
         if (StringUtils.isEmpty(sql)) {
             return invocation.proceed();
+        }
+
+        //判断是否是连表查询
+        if (isUnionOrJoin(sql)) {
+            throw new MybatisLimitException("不允许使用连表查询！");
         }
 
         // sql交由处理类处理  对sql语句进行处理
@@ -90,6 +97,18 @@ public class MybatisLimitInterceptor implements Interceptor {
      */
     private boolean isSelectCount(String sql) {
         return sql.toUpperCase().indexOf("COUNT(") > 0;
+    }
+
+    /**
+     * 判断sql语句中是否是连表查询
+     *
+     * @param sql sql语句
+     * @return
+     */
+    private boolean isUnionOrJoin(String sql) {
+        String upperCaseSql = sql.toUpperCase();
+        //判断略显草率 可以优化
+        return upperCaseSql.indexOf("JOIN") > 0 || upperCaseSql.indexOf("UNION") > 0;
     }
 
     /**

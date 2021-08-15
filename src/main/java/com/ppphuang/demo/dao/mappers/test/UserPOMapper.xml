@@ -82,4 +82,29 @@
             </if>
         </where>
     </select>
+    <select id="selectByMapUnion" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user
+        <where>
+            <if test="id!= null">
+                AND id = #{id}
+            </if>
+            <if test="name!= null">
+                AND name = #{name}
+            </if>
+        </where>
+        UNION
+        select
+        <include refid="Base_Column_List"/>
+        from user
+        <where>
+            <if test="id!= null">
+                AND id = #{id}
+            </if>
+            <if test="name!= null">
+                AND name = #{name}
+            </if>
+        </where>
+    </select>
 </mapper>

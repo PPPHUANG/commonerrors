@@ -21,4 +21,6 @@ public interface UserPOMapper {
     List<UserPO> selectByMapWrong(HashMap<String, Object> map);
 
     List<UserPO> selectByMapRight(HashMap<String, Object> map);
+
+    List<UserPO> selectByMapUnion(HashMap<String, Object> map);
 }

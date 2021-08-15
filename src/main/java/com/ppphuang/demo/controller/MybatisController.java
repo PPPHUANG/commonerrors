@@ -67,4 +67,13 @@ public class MybatisController {
         userPOS = userPOMapper.selectByMapRight(searchMap);
         return userPOS;
     }
+
+    @GetMapping(value = "selectByMapUnion")
+    public Object selectByMapUnion() {
+        HashMap<String, Object> searchMap = new HashMap<>();
+        searchMap.put("id", 1);
+        searchMap.put("name", "张三");
+        List<UserPO> userPOS = userPOMapper.selectByMapUnion(searchMap);
+        return userPOS;
+    }
 }
