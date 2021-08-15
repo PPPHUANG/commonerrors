@@ -30,13 +30,13 @@ public class MybatisLimitInterceptor implements Interceptor {
         if (StringUtils.isEmpty(sql)) {
             return invocation.proceed();
         }
-        log.info("该SQL自动添加LIMIT, 可能会影响业务，务必重视并解决！！！！：{}", sql);
 
         // sql交由处理类处理  对sql语句进行处理
         String sql2Reset = "";
-        if (!hasLimit(sql)) {
+        //不是查询数量的并且没有limit的语句 都追加默认的limit1000
+        if (!isSelectCount(sql) && !hasLimit(sql)) {
             sql2Reset = sql + " limit 1000";
-            log.info("该SQL自动添加LIMIT, 可能会影响业务，务必重视并解决！！！！：{}", sql);
+            log.error("该SQL自动添加LIMIT 1000, 可能会影响业务，务必重视并解决！！！！：{}", sql);
         }
 
         // 包装sql后，重置到invocation中
@@ -83,6 +83,16 @@ public class MybatisLimitInterceptor implements Interceptor {
     }
 
     /**
+     * 判断sql语句中是否是查询数量的
+     *
+     * @param sql sql语句
+     * @return
+     */
+    private boolean isSelectCount(String sql) {
+        return sql.toUpperCase().indexOf("COUNT(") > 0;
+    }
+
+    /**
      * 判断sql语句中是否只有where1=1
      *
      * @param sql sql语句
@@ -92,8 +102,7 @@ public class MybatisLimitInterceptor implements Interceptor {
         if (sql == null || sql.trim().length() == 0) {
             return false;
         }
-        String afterWhereStatement = sql.toUpperCase().substring(sql.indexOf("where"));
-        log.info(afterWhereStatement.replaceAll(" ", ""));
+        String afterWhereStatement = sql.toUpperCase().substring(sql.toUpperCase().indexOf("WHERE"));
         return "WHERE1=1".equals(afterWhereStatement.replaceAll(" ", ""));
     }
 

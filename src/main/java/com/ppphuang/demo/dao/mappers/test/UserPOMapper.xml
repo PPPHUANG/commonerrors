@@ -57,4 +57,29 @@
         set name = #{name,jdbcType=VARCHAR}
         where id = #{id,jdbcType=INTEGER}
     </update>
+    <select id="selectByMapWrong" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user
+        where
+        <if test="id!= null">
+            id = #{id}
+        </if>
+        <if test="name!= null">
+            AND name = #{name}
+        </if>
+    </select>
+    <select id="selectByMapRight" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user
+        <where>
+            <if test="id!= null">
+                AND id = #{id}
+            </if>
+            <if test="name!= null">
+                AND name = #{name}
+            </if>
+        </where>
+    </select>
 </mapper>
