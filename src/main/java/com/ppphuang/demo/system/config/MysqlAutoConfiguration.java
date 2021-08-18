@@ -1,10 +1,14 @@
 package com.ppphuang.demo.system.config;
 
 
+import com.github.pagehelper.PageHelper;
+import com.ppphuang.demo.system.config.interceptor.MybatisLimitInterceptor;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.Properties;
 
 /**
  * 存在SqlSessionFactoryBean类型时，才会触发下面bean的装载
@@ -13,7 +17,21 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class MysqlAutoConfiguration {
     @Bean
-    public SqlSessionFactoryBeanPostProcessor sqlSessionFactoryBeanPostProcessor() {
-        return new SqlSessionFactoryBeanPostProcessor();
+    public PageHelper pageHelper() {
+        PageHelper pageHelper = new PageHelper();
+        Properties p = new Properties();
+        p.setProperty("dialect", "mysql");
+        pageHelper.setProperties(p);
+        return pageHelper;
+    }
+
+    @Bean
+    public MybatisLimitInterceptor mybatisLimitInterceptor() {
+        return new MybatisLimitInterceptor();
+    }
+
+    @Bean
+    public SqlSessionFactoryBeanPostProcessor sqlSessionFactoryBeanPostProcessor(PageHelper pageHelper, MybatisLimitInterceptor mybatisLimitInterceptor) {
+        return new SqlSessionFactoryBeanPostProcessor(pageHelper, mybatisLimitInterceptor);
     }
 }
