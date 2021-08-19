@@ -13,5 +13,8 @@ public class NotInitialization {
 
         SuperClass[] superClasses = new SuperClass[10];
         //不会输出SuperClass
+
+        System.out.println(ConstClass.HELLOWORLD);
+        //上述代码运行之后，也没有输出“ConstClass init！”，这是因为虽然在Java源码中确实引用了ConstClass类的常量HELLOWORLD，但其实在编译阶段通过常量传播优化，已经将此常量的值“hello world”直接存储在NotInitialization类的常量池中，以后NotInitialization对常量ConstClass.HELLOWORLD的引用，实际都被转化为NotInitialization类对自身常量池的引用了。
     }
 }
