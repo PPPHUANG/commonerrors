@@ -2,6 +2,7 @@ package com.ppphuang.demo.system.config;
 
 
 import com.github.pagehelper.PageHelper;
+import com.ppphuang.demo.system.config.interceptor.EmojiTransferInterceptior;
 import com.ppphuang.demo.system.config.interceptor.MybatisLimitInterceptor;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -31,7 +32,13 @@ public class MysqlAutoConfiguration {
     }
 
     @Bean
-    public SqlSessionFactoryBeanPostProcessor sqlSessionFactoryBeanPostProcessor(PageHelper pageHelper, MybatisLimitInterceptor mybatisLimitInterceptor) {
-        return new SqlSessionFactoryBeanPostProcessor(pageHelper, mybatisLimitInterceptor);
+    public EmojiTransferInterceptior emojiTransferInterceptior() {
+        return new EmojiTransferInterceptior();
+    }
+
+
+    @Bean
+    public SqlSessionFactoryBeanPostProcessor sqlSessionFactoryBeanPostProcessor(PageHelper pageHelper, MybatisLimitInterceptor mybatisLimitInterceptor, EmojiTransferInterceptior emojiTransferInterceptior) {
+        return new SqlSessionFactoryBeanPostProcessor(pageHelper, mybatisLimitInterceptor, emojiTransferInterceptior);
     }
 }
