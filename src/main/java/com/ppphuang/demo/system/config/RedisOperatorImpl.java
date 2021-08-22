@@ -30,9 +30,9 @@ public class RedisOperatorImpl<T> implements RedisOperator<T> {
         this.redisTemplateJson = new RedisTemplate<>();
         redisTemplateJson.setConnectionFactory(redisConnectionFactory);
         redisTemplateJson.setKeySerializer(new StringRedisSerializer());
-        redisTemplateJson.setValueSerializer(new GenericJackson2JsonRedisSerializer());
+        redisTemplateJson.setValueSerializer(new Gson4JsonRedisSerialize<>());
         redisTemplateJson.setHashKeySerializer(new GenericToStringSerializer<>(Object.class));
-        redisTemplateJson.setHashValueSerializer(new GenericJackson2JsonRedisSerializer());
+        redisTemplateJson.setHashValueSerializer(new Gson4JsonRedisSerialize<>());
         redisTemplateJson.afterPropertiesSet();
     }
 
