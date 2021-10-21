@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+Agent-Class: com.ppphuang.demo.reflect.javassist.process.TestAgent
+Can-Redefine-Classes: true
+Can-Retransform-Classes: true
+Boot-Class-Path: javassist-3.28.0-GA.jar
+

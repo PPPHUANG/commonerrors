@@ -30,6 +30,12 @@
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>fluent-hc</artifactId>
             <version>4.5.9</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>httpclient</artifactId>
+                    <groupId>org.apache.httpcomponents</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
 <!--        <dependency>-->
 <!--            <groupId>org.mybatis.spring.boot</groupId>-->
@@ -111,6 +117,12 @@
             <groupId>org.redisson</groupId>
             <artifactId>redisson</artifactId>
             <version>3.12.4</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>objenesis</artifactId>
+                    <groupId>org.objenesis</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -135,7 +147,36 @@
             <!--            </exclusions>-->
         </dependency>
     </dependencies>
-
+    <!--    <build>-->
+    <!--        <plugins>-->
+    <!--            <plugin>-->
+    <!--                <groupId>org.apache.maven.plugins</groupId>-->
+    <!--                <artifactId>maven-jar-plugin</artifactId>-->
+    <!--                <configuration>-->
+    <!--                    <archive>-->
+    <!--                        <index>true</index>-->
+    <!--                        <manifestFile>src/main/resources/META-INF/MANIFEST.MF</manifestFile>-->
+    <!--                        <manifest>-->
+    <!--                            <addDefaultImplementationEntries/>-->
+    <!--                        </manifest>-->
+    <!--                    </archive>-->
+    <!--                </configuration>-->
+    <!--                <configuration>-->
+    <!--                    <archive>-->
+    <!--                        &lt;!&ndash;方法一：MANIFEST.MF 配置文件&ndash;&gt;-->
+    <!--                        &lt;!&ndash;                        <manifestFile>src/main/resources/META-INF/MANIFEST.MF</manifestFile>&ndash;&gt;-->
+    <!--                        &lt;!&ndash;方法二: pom 指定配置&ndash;&gt;-->
+    <!--                        <manifestEntries>-->
+    <!--                            <Agent-Class>com.ppphuang.demo.reflect.javassist.process.TestAgent</Agent-Class>-->
+    <!--                            <Boot-Class-Path>javassist-3.28.0-GA.jar</Boot-Class-Path>-->
+    <!--                            <Can-Redefine-Classes>true</Can-Redefine-Classes>-->
+    <!--                            <Can-Retransform-Classes>true</Can-Retransform-Classes>-->
+    <!--                        </manifestEntries>-->
+    <!--                    </archive>-->
+    <!--                </configuration>-->
+    <!--            </plugin>-->
+    <!--        </plugins>-->
+    <!--    </build>-->
     <build>
         <resources>
             <resource>
