@@ -17,7 +17,11 @@ public class TestTransformer implements ClassFileTransformer {
             CtMethod m = cc.getDeclaredMethod("process");
             m.insertBefore("{ System.out.println(\"start\"); }");
             m.insertAfter("{ System.out.println(\"end\"); }");
-            return cc.toBytecode();
+            byte[] bytes = cc.toBytecode();
+            if (cc.isFrozen()) {
+                cc.defrost();
+            }
+            return bytes;
         } catch (Exception e) {
             e.printStackTrace();
         }

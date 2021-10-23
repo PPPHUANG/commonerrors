@@ -20,7 +20,6 @@ public class Base {
             process();
         }
     }
-
     public static void process() {
         System.out.println("process");
     }

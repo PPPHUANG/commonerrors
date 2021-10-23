@@ -128,6 +128,25 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
+        <dependency>
+            <groupId>cn.ppphuang</groupId>
+            <artifactId>rpc-spring-starter</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.google.code.gson</groupId>
+                    <artifactId>gson</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
         <!-- https://mvnrepository.com/artifact/org.javassist/javassist -->
         <dependency>
             <groupId>org.javassist</groupId>
@@ -146,94 +165,98 @@
             <!--                </exclusion>-->
             <!--            </exclusions>-->
         </dependency>
+        <dependency>
+            <groupId>com.sun</groupId>
+            <artifactId>tools</artifactId>
+            <version>1.8.0</version>
+            <scope>system</scope>
+            <systemPath>/Users/ppphuang/Library/Java/JavaVirtualMachines/azul-1.8.0_292/Contents/Home/lib/tools.jar
+            </systemPath>
+        </dependency>
     </dependencies>
-    <!--    <build>-->
-    <!--        <plugins>-->
-    <!--            <plugin>-->
-    <!--                <groupId>org.apache.maven.plugins</groupId>-->
-    <!--                <artifactId>maven-jar-plugin</artifactId>-->
-    <!--                <configuration>-->
-    <!--                    <archive>-->
-    <!--                        <index>true</index>-->
-    <!--                        <manifestFile>src/main/resources/META-INF/MANIFEST.MF</manifestFile>-->
-    <!--                        <manifest>-->
-    <!--                            <addDefaultImplementationEntries/>-->
-    <!--                        </manifest>-->
-    <!--                    </archive>-->
-    <!--                </configuration>-->
-    <!--                <configuration>-->
-    <!--                    <archive>-->
-    <!--                        &lt;!&ndash;方法一：MANIFEST.MF 配置文件&ndash;&gt;-->
-    <!--                        &lt;!&ndash;                        <manifestFile>src/main/resources/META-INF/MANIFEST.MF</manifestFile>&ndash;&gt;-->
-    <!--                        &lt;!&ndash;方法二: pom 指定配置&ndash;&gt;-->
-    <!--                        <manifestEntries>-->
-    <!--                            <Agent-Class>com.ppphuang.demo.reflect.javassist.process.TestAgent</Agent-Class>-->
-    <!--                            <Boot-Class-Path>javassist-3.28.0-GA.jar</Boot-Class-Path>-->
-    <!--                            <Can-Redefine-Classes>true</Can-Redefine-Classes>-->
-    <!--                            <Can-Retransform-Classes>true</Can-Retransform-Classes>-->
-    <!--                        </manifestEntries>-->
-    <!--                    </archive>-->
-    <!--                </configuration>-->
-    <!--            </plugin>-->
-    <!--        </plugins>-->
-    <!--    </build>-->
     <build>
-        <resources>
-            <resource>
-                <directory>src/main/java</directory>
-                <includes>
-                    <include>**/*.xml</include>
-                </includes>
-                <filtering>false</filtering>
-            </resource>
-            <resource>
-                <directory>src/main/resources</directory>
-                <includes>
-                    <include>**/*.*</include>
-                </includes>
-            </resource>
-        </resources>
         <plugins>
             <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <!--               job入口文件-->
-                <!--                <configuration>-->
-                <!--                    <mainClass>com.ppphuang.demo.job.Launcher</mainClass>-->
-                <!--                    <layout>JAR</layout>-->
-                <!--                </configuration>-->
-                <!--                <configuration>-->
-<!--                    <mainClass>com.ppphuang.demo.jdktool.CommonMistakes</mainClass>-->
-<!--                    <layout>JAR</layout>-->
-                <!--                </configuration>-->
-            </plugin>
-            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
+                <artifactId>maven-jar-plugin</artifactId>
                 <configuration>
-                    <source>8</source>
-                    <target>8</target>
+                    <archive>
+                        <!--方法一：MANIFEST.MF 配置文件-->
+                        <!--                        <manifestFile>src/main/resources/META-INF/MANIFEST.MF</manifestFile>-->
+                        <!--方法二: pom 指定配置-->
+                        <!--                            <manifestEntries>-->
+                        <!--                                <Agent-Class>com.ppphuang.demo.reflect.javassist.process.TestAgent</Agent-Class>-->
+                        <!--                                <Boot-Class-Path>javassist-3.28.0-GA.jar</Boot-Class-Path>-->
+                        <!--                                <Can-Redefine-Classes>true</Can-Redefine-Classes>-->
+                        <!--                                <Can-Retransform-Classes>true</Can-Retransform-Classes>-->
+                        <!--                            </manifestEntries>-->
+                        <manifestEntries>
+                            <Premain-Class>com.ppphuang.demo.reflect.javassist.preagent.AgentMain</Premain-Class>
+                            <Can-Redefine-Classes>true</Can-Redefine-Classes>
+                            <Can-Retransform-Classes>true</Can-Retransform-Classes>
+                        </manifestEntries>
+                    </archive>
                 </configuration>
-            </plugin>
-            <plugin>
-                <!-- 支持mybatis.generator -->
-                <groupId>org.mybatis.generator</groupId>
-                <artifactId>mybatis-generator-maven-plugin</artifactId>
-                <version>1.3.2</version>
-                <configuration>
-                    <verbose>true</verbose>
-                    <overwrite>true</overwrite>
-                </configuration>
-                <dependencies>
-                    <!-- 省去单独下载mysql-connector的麻烦，上面导入的并不能在这里起作用 -->
-                    <dependency>
-                        <groupId>mysql</groupId>
-                        <artifactId>mysql-connector-java</artifactId>
-                        <version>5.1.37</version>
-                    </dependency>
-                </dependencies>
             </plugin>
         </plugins>
     </build>
+    <!--    <build>-->
+    <!--        <resources>-->
+    <!--            <resource>-->
+    <!--                <directory>src/main/java</directory>-->
+    <!--                <includes>-->
+    <!--                    <include>**/*.xml</include>-->
+    <!--                </includes>-->
+    <!--                <filtering>false</filtering>-->
+    <!--            </resource>-->
+    <!--            <resource>-->
+    <!--                <directory>src/main/resources</directory>-->
+    <!--                <includes>-->
+    <!--                    <include>**/*.*</include>-->
+    <!--                </includes>-->
+    <!--            </resource>-->
+    <!--        </resources>-->
+    <!--        <plugins>-->
+    <!--            <plugin>-->
+    <!--                <groupId>org.springframework.boot</groupId>-->
+    <!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
+    <!--                &lt;!&ndash;               job入口文件&ndash;&gt;-->
+    <!--                &lt;!&ndash;                <configuration>&ndash;&gt;-->
+    <!--                &lt;!&ndash;                    <mainClass>com.ppphuang.demo.job.Launcher</mainClass>&ndash;&gt;-->
+    <!--                &lt;!&ndash;                    <layout>JAR</layout>&ndash;&gt;-->
+    <!--                &lt;!&ndash;                </configuration>&ndash;&gt;-->
+    <!--                &lt;!&ndash;                <configuration>&ndash;&gt;-->
+    <!--&lt;!&ndash;                    <mainClass>com.ppphuang.demo.jdktool.CommonMistakes</mainClass>&ndash;&gt;-->
+    <!--&lt;!&ndash;                    <layout>JAR</layout>&ndash;&gt;-->
+    <!--                &lt;!&ndash;                </configuration>&ndash;&gt;-->
+    <!--            </plugin>-->
+    <!--            <plugin>-->
+    <!--                <groupId>org.apache.maven.plugins</groupId>-->
+    <!--                <artifactId>maven-compiler-plugin</artifactId>-->
+    <!--                <configuration>-->
+    <!--                    <source>8</source>-->
+    <!--                    <target>8</target>-->
+    <!--                </configuration>-->
+    <!--            </plugin>-->
+    <!--            <plugin>-->
+    <!--                &lt;!&ndash; 支持mybatis.generator &ndash;&gt;-->
+    <!--                <groupId>org.mybatis.generator</groupId>-->
+    <!--                <artifactId>mybatis-generator-maven-plugin</artifactId>-->
+    <!--                <version>1.3.2</version>-->
+    <!--                <configuration>-->
+    <!--                    <verbose>true</verbose>-->
+    <!--                    <overwrite>true</overwrite>-->
+    <!--                </configuration>-->
+    <!--                <dependencies>-->
+    <!--                    &lt;!&ndash; 省去单独下载mysql-connector的麻烦，上面导入的并不能在这里起作用 &ndash;&gt;-->
+    <!--                    <dependency>-->
+    <!--                        <groupId>mysql</groupId>-->
+    <!--                        <artifactId>mysql-connector-java</artifactId>-->
+    <!--                        <version>5.1.37</version>-->
+    <!--                    </dependency>-->
+    <!--                </dependencies>-->
+    <!--            </plugin>-->
+    <!--        </plugins>-->
+    <!--    </build>-->
 
 </project>
