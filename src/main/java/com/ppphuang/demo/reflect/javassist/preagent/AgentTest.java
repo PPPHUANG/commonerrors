@@ -13,4 +13,10 @@ public class AgentTest {
             e.printStackTrace();
         }
     }
+
+    public String sayHello(String name, Integer age) {
+        System.out.println(name + age);
+        return name + age;
+    }
+
 }

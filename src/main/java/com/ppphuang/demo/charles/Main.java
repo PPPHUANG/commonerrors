@@ -31,9 +31,9 @@ public class Main {
         Compressor.compress(newJarPath, outClassPath);
 
         //删除压缩的文件夹
-        if (StrongFileUtil.deleteDirPath(outClassPath)) {
-            System.out.println("删除压缩临时文件夹成功");
-        }
+//        if (StrongFileUtil.deleteDirPath(outClassPath)) {
+//            System.out.println("删除压缩临时文件夹成功");
+//        }
 
     }
 }
