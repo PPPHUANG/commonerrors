@@ -18,21 +18,32 @@ public class ProxyServiceController {
     public Object proxyService() throws Exception {
 
         //生成客户端代理类
-        TestService testService = (TestService) Proxy.newProxyInstance(TestService.class.getClassLoader(), new Class[]{TestService.class}, new InvocationHandler() {
-            @Override
-            public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-                String methodName = method.getName();
-                //生成服务端代理类
-                InvokeProxy invokeProxy = (InvokeProxy) Container.getProxyService("TestService");
-                Context context = new Context();
-                context.setMethod(methodName);
-                context.setParameters(args);
-                context.setParametersTypes(method.getParameterTypes());
-                context.setServiceName("TestService");
-                return invokeProxy.invoke(context);
-            }
-        });
+        TestService testService = (TestService) Proxy.newProxyInstance(TestService.class.getClassLoader(), new Class[]{TestService.class}, new MyInvocationHandler(TestService.class));
         String ppphuang = testService.sayHello("ppphuang", 18);
         return ppphuang;
+    }
+}
+
+/**
+ * 自定义InvocationHandler
+ */
+class MyInvocationHandler implements InvocationHandler {
+    private Class<?> clz;
+
+    public MyInvocationHandler(Class<?> clz) {
+        this.clz = clz;
+    }
+
+    @Override
+    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+        String methodName = method.getName();
+        //生成服务端代理类
+        InvokeProxy invokeProxy = (InvokeProxy) Container.getProxyService(clz.getSimpleName());
+        Context context = new Context();
+        context.setMethod(methodName);
+        context.setParameters(args);
+        context.setParametersTypes(method.getParameterTypes());
+        context.setServiceName(clz.getSimpleName());
+        return invokeProxy.invoke(context);
     }
 }
