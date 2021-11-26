@@ -160,6 +160,17 @@
             <version>1.8.2</version>
         </dependency>
         <dependency>
+            <groupId>com.alibaba.csp</groupId>
+            <artifactId>sentinel-core</artifactId>
+            <version>1.8.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.csp</groupId>
+            <artifactId>sentinel-annotation-aspectj</artifactId>
+            <version>1.8.2</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
             <groupId>com.sun</groupId>
             <artifactId>tools</artifactId>
             <version>1.8.0</version>
