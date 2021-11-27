@@ -150,24 +150,9 @@
             <!--            </exclusions>-->
         </dependency>
         <dependency>
-            <groupId>com.alibaba.csp</groupId>
-            <artifactId>sentinel-cluster-client-default</artifactId>
-            <version>1.8.2</version>
-        </dependency>
-        <dependency>
-            <groupId>com.alibaba.csp</groupId>
-            <artifactId>sentinel-cluster-server-default</artifactId>
-            <version>1.8.2</version>
-        </dependency>
-        <dependency>
-            <groupId>com.alibaba.csp</groupId>
-            <artifactId>sentinel-core</artifactId>
-            <version>1.8.2</version>
-        </dependency>
-        <dependency>
-            <groupId>com.alibaba.csp</groupId>
-            <artifactId>sentinel-annotation-aspectj</artifactId>
-            <version>1.8.2</version>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
+            <version>2021.1</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -177,6 +162,12 @@
             <scope>system</scope>
             <systemPath>/Users/ppphuang/Library/Java/JavaVirtualMachines/azul-1.8.0_292/Contents/Home/lib/tools.jar
             </systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.csp</groupId>
+            <artifactId>sentinel-datasource-zookeeper</artifactId>
+            <version>1.8.2</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
     <!--    <build>-->

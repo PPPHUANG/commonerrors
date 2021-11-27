@@ -28,6 +28,11 @@ public class SentinelController {
         return sentinelService.hello(100L);
     }
 
+    @GetMapping("test2")
+    public String test2() {
+        return sentinelService.hello1(200L);
+    }
+
     @GetMapping("test1")
     public String test1() {
         // 1.5.0 版本开始可以直接利用 try-with-resources 特性，自动 exit entry
