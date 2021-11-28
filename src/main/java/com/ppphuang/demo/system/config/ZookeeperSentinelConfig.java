@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.util.List;
 
-@Component
+//@Component
 public class ZookeeperSentinelConfig {
     @Value("${spring.application.name}")
     private String appName;

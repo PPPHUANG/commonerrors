@@ -45,7 +45,7 @@ public class SentinelController {
         }
     }
 
-    @PostConstruct
+//    @PostConstruct
     private static void initFlowRules() {
         List<FlowRule> rules = new ArrayList<>();
         FlowRule rule = new FlowRule();
