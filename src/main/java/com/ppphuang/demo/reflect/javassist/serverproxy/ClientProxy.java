@@ -23,8 +23,11 @@ public class ClientProxy {
                 return invokeProxy.invoke(context);
             }
         });
-        String ppphuang = testService.sayHello("ppphuang", 18);
-        System.out.println(ppphuang);
+        System.out.println(testService.sayHello("ppphuang", 18));
+        System.out.println(testService.sayHello("ppphuang", null));
+        System.out.println(testService.sayHello(null, 18));
+        System.out.println(testService.sayHello(null, null));
+        System.out.println(testService.sayHelloInt(18));
     }
 
 }
