@@ -3,13 +3,11 @@ package com.ppphuang.demo.reflect.javassist.serverproxy;
 public interface TestService {
     String sayHello(String name, Integer age);
 
-    Integer sayHelloInteger(Integer age);
+    String sayHello(String name);
 
-    int sayHelloInt(int age);
+    int sayHelloInt(Integer age);
 
-    long sayHelloLong(long age);
-
-    boolean sayHelloBoo(boolean age);
+    Integer sayHelloInt(Integer age, long hight);
 
     char sayHelloChar(char age);
 

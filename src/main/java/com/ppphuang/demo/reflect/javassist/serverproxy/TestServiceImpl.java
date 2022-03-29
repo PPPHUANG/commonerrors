@@ -10,23 +10,18 @@ public class TestServiceImpl implements TestService {
     }
 
     @Override
-    public Integer sayHelloInteger(Integer age) {
+    public String sayHello(String name) {
+        return name;
+    }
+
+    @Override
+    public int sayHelloInt(Integer age) {
         return age;
     }
 
     @Override
-    public int sayHelloInt(int age) {
-        return new Integer(age);
-    }
-
-    @Override
-    public long sayHelloLong(long age) {
-        return age;
-    }
-
-    @Override
-    public boolean sayHelloBoo(boolean age) {
-        return age;
+    public Integer sayHelloInt(Integer age, long hight) {
+        return Math.toIntExact(age + hight);
     }
 
     @Override
