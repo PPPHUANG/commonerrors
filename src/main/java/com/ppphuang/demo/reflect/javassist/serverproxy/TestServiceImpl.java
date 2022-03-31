@@ -2,6 +2,9 @@ package com.ppphuang.demo.reflect.javassist.serverproxy;
 
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+import java.util.List;
+
 @Service
 public class TestServiceImpl implements TestService {
     @Override
@@ -47,5 +50,25 @@ public class TestServiceImpl implements TestService {
     @Override
     public short sayHelloShort(short age) {
         return age;
+    }
+
+    @Override
+    public List<Integer> sayHelloList(Integer age) {
+        return Arrays.asList(1, 2, 3, 4, 5);
+    }
+
+    @Override
+    public Result<Person> sayHelloPersion(Integer age, String name) {
+        Person person = new Person(age, name);
+        Result<Person> result = new Result<>(200, "成功", person);
+        return result;
+    }
+
+    @Override
+    public Result<List<Person>> sayHelloPersions(Integer age, String name) {
+        Person person = new Person(age, name);
+        Person person1 = new Person(age, name);
+        Result<List<Person>> result = new Result<>(200, "成功", Arrays.asList(person, person1));
+        return result;
     }
 }

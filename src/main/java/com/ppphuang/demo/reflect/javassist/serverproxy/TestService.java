@@ -1,5 +1,7 @@
 package com.ppphuang.demo.reflect.javassist.serverproxy;
 
+import java.util.List;
+
 public interface TestService {
     String sayHello(String name, Integer age);
 
@@ -18,4 +20,10 @@ public interface TestService {
     byte sayHelloByte(byte age);
 
     short sayHelloShort(short age);
+
+    List<Integer> sayHelloList(Integer age);
+
+    Result<Person> sayHelloPersion(Integer age, String name);
+
+    Result<List<Person>> sayHelloPersions(Integer age, String name);
 }

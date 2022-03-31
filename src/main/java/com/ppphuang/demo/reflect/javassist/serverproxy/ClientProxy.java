@@ -29,6 +29,9 @@ public class ClientProxy {
         System.out.println(testService.sayHello(null, null));
         System.out.println(testService.sayHelloInt(18));
         System.out.println(testService.sayHelloInt(18, 180));
+        System.out.println(testService.sayHelloList(18));
+        System.out.println(testService.sayHelloPersion(18, "ppphuang"));
+        System.out.println(testService.sayHelloPersions(18, "ppphuang"));
     }
 
 }
