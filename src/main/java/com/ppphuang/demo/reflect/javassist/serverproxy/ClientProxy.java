@@ -4,6 +4,7 @@ package com.ppphuang.demo.reflect.javassist.serverproxy;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.util.Arrays;
 
 public class ClientProxy {
     public static void main(String[] args) {
@@ -20,7 +21,8 @@ public class ClientProxy {
                 context.setParameters(args);
                 context.setParametersTypes(method.getParameterTypes());
                 context.setServiceName(proxy.getClass().getSimpleName());
-                return invokeProxy.invoke(context);
+                Response invoke = invokeProxy.invoke(context);
+                return invoke.getData();
             }
         });
         System.out.println(testService.sayHello("ppphuang", 18));
