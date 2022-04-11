@@ -4,15 +4,15 @@
 
 1. Charles未授权状态
 
-<img src="./img/img_3.png" alt="" />
+<img src="./img/img_3.png" alt="Charles未授权状态" />
 
 2. 反编译Charles Jar包查看源码
 
-<img src="./img/img_1.png"  alt="" />
+<img src="./img/img_1.png"  alt="Jar包查看源码" />
 
-<img src="./img/img.png" alt="" />
+<img src="./img/img.png" alt="Jar包查看源码" />
 
-<img src="./img/img_2.png" alt=""/>
+<img src="./img/img_2.png" alt="Jar包查看源码"/>
 
 由图可见`Charles`通过`showRegistrationStatus()`方法检查软件是否已经授权。
 `p.a()`方法检验授权状态，授权的话展示授权名称，名称由`p.c()`方法获取。
@@ -59,4 +59,4 @@ public class Main1 {
 
 5. 启动Charles
 
-<img src="./img/img_5.png" alt=""/>
+<img src="./img/img_5.png" alt="启动Charles"/>
