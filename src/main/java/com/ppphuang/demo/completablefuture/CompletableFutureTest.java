@@ -1,4 +1,4 @@
-package com.ppphuang.demo.thread;
+package com.ppphuang.demo.completablefuture;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
