@@ -12,7 +12,27 @@ public class CompletableFutureTest2 {
 //        thenComposeExample();
 //        thenComposeAsyncExample();
 //        applyToEitherExample();
-        allOf();
+//        allOf();
+        thenSupplyAsyncExample();
+    }
+
+    static void thenSupplyAsyncExample() {
+        // `fn` will run during the call to `complete()` in the context of whichever thread has called `complete()`.
+        // If `complete()` has already finished by the time `thenApply()` is called, `fn` will be run in the context of the thread calling `thenApply()`.
+        String original = "Message";
+        CompletableFuture cf = CompletableFuture.supplyAsync(() -> {
+            System.out.println("supplyAsync thread: " + Thread.currentThread().getName());
+//                    try {
+//                        Thread.sleep(100);
+//                    } catch (InterruptedException e) {
+//                        throw new RuntimeException(e);
+//                    }
+            return original;
+        }).thenApply(r -> {
+            System.out.println("thenApply thread: " + Thread.currentThread().getName());
+            return r;
+        });
+        System.out.println(cf.join());
     }
 
     static void thenApplyExample() {
