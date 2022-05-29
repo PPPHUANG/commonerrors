@@ -14,6 +14,26 @@ public class CompletableFutureTest2 {
 //        applyToEitherExample();
 //        allOf();
         thenSupplyAsyncExample();
+//        thenExample();
+    }
+
+    static void thenExample() {
+        CompletableFuture<Integer> cf = new CompletableFuture<>();
+        cf.thenApply(x -> {
+            System.out.println("stage1:" + Thread.currentThread().getName());
+            return x + 1;
+        }).thenApply(x -> {
+            System.out.println("stage2:" + Thread.currentThread().getName());
+            return x - 1;
+        });
+        System.out.println("start complete");
+        cf.complete(1);
+        System.out.println("end complete");
+        cf.thenApply(x -> {
+            System.out.println("stage3: " + Thread.currentThread().getName());
+            return x + 1;
+        });
+        cf.join();
     }
 
     static void thenSupplyAsyncExample() {
